@@ -1,0 +1,23 @@
+{
+  "kind": "singleType",
+  "collectionName": "heroes",
+  "info": {
+    "name": "hero"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "greeting": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "short_biography": {
+      "type": "string"
+    }
+  }
+}
