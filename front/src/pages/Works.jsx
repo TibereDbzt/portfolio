@@ -2,16 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 import CardWork from 'components/CardWork'
 import { dateFormat } from 'config'
-import LocomotiveScroll from 'locomotive-scroll';
-import 'locomotive-scroll.css';
-
-// document.addEventListener('DOMContentLoaded', e => {
-//     const scroll = new LocomotiveScroll({
-//         el: document.querySelector('[data-scroll-container]'),
-//         smooth: true,
-//         offset: [0, 80],
-//     });
-// })
+import useWindowSize from 'hooks/useWindowSize'
 
 const WorksGrid = styled.div`
     width: 100%;
@@ -36,11 +27,30 @@ const WorksGrid = styled.div`
 
 export default function Works() {
 
+    const skewConfigs = {
+        ease: 0.1,
+        current: 0,
+        previous: 0,
+        rounded: 0
+    };
+    
+    const size = useWindowSize();
+
     const app = useRef();
     const scrollContainer = useRef();
 
     const [isLoading, setIsLoading] = useState(true);
     const [works, setWorks] = useState(null);
+
+    useEffect(() => {
+        document.body.style.height = `${
+            scrollContainer.current.getBoundingClientRect().height
+        }px`;
+    }, [size.height]);
+
+    useEffect(() => {
+        requestAnimationFrame(() => skewScrolling());
+    }, []);
 
     useEffect(() => {
         fetch('http://localhost:1337/works',
@@ -64,17 +74,34 @@ export default function Works() {
                 setWorks(res)
                 setIsLoading(false)
             })
-    }, [])
+    }, []);
+
+    const skewScrolling = () => {
+        skewConfigs.current = window.scrollY;
+        skewConfigs.previous += (skewConfigs.current - skewConfigs.previous) * skewConfigs.ease;
+        skewConfigs.rounded = Math.round(skewConfigs.previous * 100) / 100;
+
+        const difference = skewConfigs.current - skewConfigs.rounded;
+        const acceleration = difference / size.width;
+        const velovity = +acceleration;
+        const skew = velovity * 7.5;
+
+        scrollContainer.current.style.transform = `translate3d(0, -${skewConfigs.rounded}px, 0) skewY(${skew}deg`;
+
+        requestAnimationFrame(() => skewScrolling());
+    }
 
     return (
-        <main data-scroll-container className="page">
-            <header data-scroll-section className="sectionHeader">
-                <h1 data-scroll>my works</h1>
-                <p data-scroll>here you can find several small projects</p>
-            </header>
-            <WorksGrid data-scroll-section>
-                {isLoading ? 'Loading..' : works.map(work => <CardWork data-scroll data-scroll-speed="2" work={work} key={work.id} />)}
-            </WorksGrid>
-        </main>
+        <div ref={app} className="app">
+            <main ref={scrollContainer} className="page">
+                <header className="sectionHeader">
+                    <h1>my works</h1>
+                    <p>here you can find several small projects</p>
+                </header>
+                <WorksGrid>
+                    {isLoading ? 'Loading..' : works.map(work => <CardWork work={work} key={work.id} />)}
+                </WorksGrid>
+            </main>
+        </div>
     )
 }

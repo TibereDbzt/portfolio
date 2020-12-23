@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'App';
 import 'index.css';
-import Cursor from 'Cursor'
+import Cursor from 'components/Cursor'
 
 document.addEventListener('DOMContentLoaded', e => {
   Cursor();
