@@ -4,40 +4,64 @@ import { API_URL } from './../config'
 
 const Card = styled.div`
     position: relative;
-    display: flex;
-    flex-direction: column;
-    margin: 30px;
-    flex-basis: calc( 50% - ( 30px * 2) );
+    width: 100%;
 
-    &:nth-of-type(2) {
-        margin-top: 200px;
+    &:hover .imgPreview {
+        filter: none;
     }
 `
 
 const PreviewContainer = styled.div`
     position: relative;
+    overflow: hidden;
 `
 
-const Tag = styled.div`
+const Tags = styled.div`
+    z-index: 5;
     position: absolute;
     top: -10px;
-    left: -10px;
+    right: -10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--primary);
-    padding: 6px 14px;
-    color: white;
-    z-index: 10;
-    border-radius: 2px
+
+    > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--primary);
+        padding: 6px 14px;
+        color: white;
+        z-index: 10;
+        border-radius: 2px;
+        margin: 0 4px;
+        font-size: 14px;
+
+        &:first-of-type {
+            margin-left: 0;
+        }
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+    }
+`
+
+const Date = styled.p`
+    position: absolute;
+    top: -3px;
+    left: 3px;
+    transform: translateY(-100%);
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 400;
 `
 
 const Preview = styled.img`
     width: 100%;
     height: auto;
     position: relative;
-    border: 1px solid var(--primary);
-    border-radius: 8px;
+    border-radius: 6px;
+    filter: blur(0.5px) brightness(0.82) grayscale(1);
+    transition: 0.5s filter ease;
 `
 
 const LinksContainer = styled.div`
@@ -46,7 +70,7 @@ const LinksContainer = styled.div`
     right: 0;
     background-color: var(--primary);
     display: flex;
-    border-radius: 6px 0 8px 0
+    border-radius: 6px 0 6px 0
 `
 
 const Link = styled.a`
@@ -57,16 +81,11 @@ const Link = styled.a`
 `
 
 const TextContainer = styled.div`
-    display: flex;
     padding-top: 18px;
 `
 
-const HeadingContainer = styled.div`
-    flex-grow: 1;
-`
-
 const Name = styled.h3`
-    font-size: 34px;
+    font-size: 2.1rem;
     margin: 0;
 `
 
@@ -75,22 +94,19 @@ const Description = styled.p`
     margin-top: 10px;
 `
 
-const Date = styled.p`
-    font-size: 18px;
-    text-transform: uppercase;
-    writing-mode: vertical-rl;
-    font-weight: 500;
-`
-
 export default function CardWork({work}) {
+
+    const keytechs = work.keytechs.split(',');
     
     return (
         <Card>
-            <Tag>
-                <span>{work.keyword}</span>
-            </Tag>
+            <Tags data-scroll data-scroll-speed="0.4">
+                {keytechs.map( (keytech, i) => (
+                    <div key={i}>{keytech}</div>
+                ))}
+            </Tags>
             <PreviewContainer>
-                <Preview src={ API_URL + work.preview.formats.medium.url} alt=""/>
+                <Preview className="imgPreview" src={ API_URL + work.preview.formats.medium.url } alt={work.preview.alternativeText }/>
                 <LinksContainer>
                     <Link href={work.repository} target="_blank">
                         <svg width="26" height="26" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -103,13 +119,11 @@ export default function CardWork({work}) {
                         </svg>
                     </Link>
                 </LinksContainer>
+                <Date>{work.date}</Date>
             </PreviewContainer>
             <TextContainer>
-                <HeadingContainer>
-                    <Name>_{work.name}</Name>
-                    <Description>{work.description}</Description>
-                </HeadingContainer>
-                <Date>{work.date}</Date>
+                <Name data-scroll-offset="50" className="titleWork" data-scroll-class="scroll-titleWork" data-scroll>_{work.name}</Name>
+                <Description data-scroll data-scroll-speed="0.15" data-scroll-class="scroll-descWork" className="descWork">{work.description}</Description>
             </TextContainer>
         </Card>
     )

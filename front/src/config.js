@@ -17,3 +17,5 @@ export const navEntries = [
         url: '/contact'
     }
 ]
+
+export const dateFormat = { month: 'long', year: 'numeric' };

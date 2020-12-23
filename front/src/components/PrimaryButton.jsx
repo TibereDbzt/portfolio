@@ -6,11 +6,11 @@ const Button = styled.a`
     position: relative;
     display: inline-block;
     padding: 12px 25px;
-    background-color: #61c284;
-    border: 1px solid var(--primary);
+    background-color: var(--primary);
     font-weight: 800;
     color: var(--primary);
     width: fit-content;
+    font-size: 16px;
 
     &:before {
         content: '${props => props.content}';

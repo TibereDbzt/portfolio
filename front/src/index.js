@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'App';
 import 'index.css';
+import Cursor from 'Cursor'
+
+document.addEventListener('DOMContentLoaded', e => {
+  Cursor();
+})
 
 ReactDOM.render(
   <React.StrictMode>

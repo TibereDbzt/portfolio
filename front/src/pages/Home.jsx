@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import PrimaryButton from 'components/PrimaryButton'
 import { API_URL } from 'config'
+import { Link } from 'react-router-dom'
 
 const TextBlock = styled.div`
     margin-bottom: 70px;
 `
-const Hello = styled.p`
-    
-`
 
-const Name = styled.h1`
+const Name = styled(motion.h1)`
     margin: 0;
     font-size: 6rem;
     position: relative;
@@ -25,7 +24,6 @@ const Name = styled.h1`
         left: 0;
         transform: translate(-1px, 2px) rotate(-1deg);
         -webkit-text-stroke: 1px black; /* width and color */
-        color: rgba(44, 134, 89, 0.3);
         z-index: -10;
     }
 
@@ -37,13 +35,8 @@ const Name = styled.h1`
         left: 0;
         transform: translate(4px, 4px) rotate(0.5deg);
         -webkit-text-stroke: 1px black; /* width and color */
-        color: rgba(4, 153, 0, 0.08);
         z-index: -10;
     }
-`
-
-const Resume = styled.p`
-    
 `
 
 const Home = () => {
@@ -73,15 +66,30 @@ const Home = () => {
             </main>
         )
     }
+
+    const variants = {
+        visible: { opacity: 1 },
+        hidden: { opacity: 0 },
+      }
     
     return (
         <main className="page home">
             <TextBlock>
-                <Hello>{hero.greeting}</Hello>
-                <Name>{hero.name}</Name>
-                <Resume>{hero.short_biography}</Resume>
+                <motion.p
+                    animate={{ translateY: 0 }}
+                    initial={{ translateY: 10 }}
+                    transition={{ duration: 0.7 }}
+                >{hero.greeting}</motion.p>
+                <Name
+                    initial="hidden"
+                    animate="visible"
+                    variants={variants}
+                    transition={{ duration: 0.8 }}
+                >{hero.name}</Name>
+                <p>{hero.short_biography}</p>
             </TextBlock> 
-            <PrimaryButton content="DISCOVER MY WORK"></PrimaryButton>
+            {/* <PrimaryButton content="DISCOVER MY WORK"></PrimaryButton> */}
+            <Link className="giantBtn" to="/work"><span>DISCOVER MY WORK</span></Link>
         </main>
     )
 }

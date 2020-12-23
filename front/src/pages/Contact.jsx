@@ -15,6 +15,7 @@ const LinksContainer = styled.address`
 
         > li > a {
             padding: 8px;
+            font-size: 1.7rem;
         }
     }
 `
@@ -49,13 +50,15 @@ const Contact = () => {
     
     return (
         <main className="page">
-            <h1>contact</h1>
-            <p>{contact.availabilities}</p>
+            <header className="sectionHeader">
+                <h1>contact</h1>
+                <p>{contact.availabilities}</p>
+            </header>
             <LinksContainer>
                 {contact.links && (
                     <ul>
                         {contact.links.map(({id, clean_url, url}) => (
-                            <li key={id}><a href={url} target="_blank">{clean_url}</a></li>
+                            <li key={id}><a href={url} target="_blank" rel="noreferrer noopener">{clean_url}</a></li>
                         ))}
                     </ul>
                 )}
