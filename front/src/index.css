@@ -1,6 +1,7 @@
 :root {
   --primary: #292929;
   --grey: #5a5a5a;
+  --green: #61c284;
 }
 
 /* @font-face {
@@ -21,6 +22,22 @@ html::-webkit-scrollbar {
   width: 0px; /* For Chrome, Safari, and Opera */
 }
 
+html {
+  font-size: 15px;
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 13px;
+  }
+}
+
 body {
   margin: 0;
   font-family: 'Roboto';
@@ -38,19 +55,65 @@ body {
   padding-top: 88px;
 }
 
+section, main {
+  margin-bottom: 4rem;
+}
+
+.sectionHeader {
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 1300px) {
+  .page {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+}
+
 .home {
-  padding: 0 0 0 140px;
+  padding: 0 140px 0 140px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-header.onlyNav {
-  justify-content: flex-end;
+@media (max-width: 480px) {
+  .home {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
 }
 
-section {
-  margin-bottom: 100px;
+@media (max-width: 1000px) {
+  .home {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+
+@media (max-width: 800px) {
+  .home {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+header.onlyNav {
+  justify-content: flex-end;
 }
 
 .hashed {
@@ -68,7 +131,7 @@ a {
 
 h1 {
   font-size: 60px;
-  margin: 24px 0;
+  margin: 0.8rem 0;
 }
 
 h2 {
@@ -88,6 +151,7 @@ h4 {
 }
 
 p {
+  font-size: 1rem;
   font-weight: 300;
   color: var(--grey);
   margin: 4px 0;
@@ -104,3 +168,132 @@ li {
   margin: 4px 0;
   font-weight: 400;
 }
+
+#lerpPointer {
+  position: fixed;
+  z-index: 1000;
+
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+
+  background: transparent;
+  mix-blend-mode: difference;
+  border: 1px solid var(--primary);
+
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  transition-property: background, transform;
+  /* transform-origin: -100% -100%; */
+}
+
+#lerpPointer > span {
+  display: block;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--primary);
+
+}
+
+#lerpPointer.onElement {
+  background: var(--primary);
+}
+
+#lerpPointer.onElement > span {
+  display: none;
+}
+
+* {
+  cursor: none;
+}
+
+.cursor {
+  z-index: 1000;
+  pointer-events: none;
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+}
+
+.bubble {
+  pointer-events: none;
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  padding: 1.2rem;
+  border-radius: 50%;
+
+  background: transparent;
+  border: 1px solid var(--primary);
+  mix-blend-mode: difference;
+  
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  transition-property: transform;
+}
+
+.bubble.onLink {
+  background: var(--primary);
+}
+
+a > span {
+  display: inline-block;
+  pointer-events: none;
+  transition: transform 0.1s ease;
+  mix-blend-mode: difference;
+}
+
+a:hover > span {
+  color: white;
+  transform : translate(0, 20%);
+  /* transition: transform 0.2s ease */
+}
+
+.bubble.onLink ~ .cursor {
+  background: white;
+}
+
+.giantBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 1px solid var(--primary);
+}
+
+/* .titleWork {
+  transform: translateX(15px);
+  opacity: 0;
+  transition: all 0.6s ease-out;
+  transition-property: transform opacity;
+}
+
+.scroll-titleWork {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.descWork {
+  opacity: 0;
+  transition: all 1.5s ease-out;
+  transition-property: opacity;
+}
+
+.scroll-descWork {
+  opacity: 1;
+} */

@@ -78,8 +78,10 @@ const About = () => {
     return (
         <main className="page">
             <History>
-                <h1>history</h1>
-                <p>{about.biography}</p>
+                <header className="sectionHeader">
+                    <h1>history</h1>
+                    <p>{about.biography}</p>
+                </header>
                 {about.history && (
                     <div>
                         {about.history.map(({id, start_date, end_date, location, name, description, single_date}) => (
@@ -96,7 +98,9 @@ const About = () => {
                 )}
             </History>
             <Skills>
-                <h1>skills</h1>
+                <header className="sectionHeader">
+                    <h1>skills</h1>
+                </header>
                 {about.skills && (
                     <ul>
                         {about.skills.map(({id, name, level}) => (

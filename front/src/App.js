@@ -1,25 +1,30 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import Home from 'components/pages/Home'
-import About from 'components/pages/About'
-import Works from 'components/pages/Works'
-import Contact from 'components/pages/Contact'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
+import Home from 'pages/Home'
+import About from 'pages/About'
+import Works from 'pages/Works'
+import Contact from 'pages/Contact'
 import Header from 'components/Header'
 import SocialSideBar from 'components/SocialSideBar'
 
 function App() {
-  
   return (
-    <div className="App">
-      <Router>
-        <Header />
-        <Route path="/" exact component={Home}></Route>
-        <Route path="/about" component={About}></Route>
-        <Route path="/work" component={Works}></Route>
-        <Route path="/contact" component={Contact}></Route>
-        <SocialSideBar />
-      </Router>
-    </div>
+    <Router>
+      <div className="bubble"></div>
+      <div className="cursor"></div>
+      <Header />
+      <AnimatePresence exitBeforeEnter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="work" element={<Works />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="*" />
+      </Routes>
+      </AnimatePresence>
+      <SocialSideBar />
+    </Router>
   );
 }
 
