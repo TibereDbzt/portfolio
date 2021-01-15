@@ -11,6 +11,7 @@ const Button = styled.a`
     color: var(--primary);
     width: fit-content;
     font-size: 16px;
+    margin: 2rem 0;
 
     &:before {
         content: '${props => props.content}';

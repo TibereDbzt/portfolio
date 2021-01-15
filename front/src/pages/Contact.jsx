@@ -2,23 +2,9 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { API_URL } from 'config'
 
-const LinksContainer = styled.address`
-
-    > ul {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        column-gap: 80px;
-        row-gap: 40px;
-        list-style: none;
-        padding: 100px 0;
-        /* margin-left: -8px; */
-
-        > li > a {
-            padding: 8px;
-            font-size: 1.7rem;
-        }
-    }
-`
+// styles
+import { Content } from 'styles/RepeatedStyles'
+import { LinksContainer } from 'styles/ContactStyles'
 
 const Contact = () => {
 
@@ -49,7 +35,7 @@ const Contact = () => {
     }
     
     return (
-        <main className="page">
+        <Content centered>
             <header className="sectionHeader">
                 <h1>contact</h1>
                 <p>{contact.availabilities}</p>
@@ -63,7 +49,7 @@ const Contact = () => {
                     </ul>
                 )}
             </LinksContainer>
-        </main>
+        </Content>
     );
 }
 

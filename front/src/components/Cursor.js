@@ -5,7 +5,7 @@ function Cursor () {
     const cursor = document.querySelector('.cursor');
     const bubble = document.querySelector('.bubble');
 
-    // 
+    // Bubble basis position
     let bubbleX = window.innerWidth / 2;
     let bubbleY = window.innerHeight / 2;
 

@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost:1337'
+export const API_URL = 'https://rocky-scrubland-58489.herokuapp.com'
 
 export const navEntries = [
     {
