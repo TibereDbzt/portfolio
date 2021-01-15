@@ -4,13 +4,10 @@ import { API_URL } from './../config'
 
 const Card = styled.div`
     position: relative;
-    display: flex;
-    flex-direction: column;
-    margin: 30px;
-    flex-basis: calc( 50% - ( 30px * 2) );
+    width: 100%;
 
-    &:nth-of-type(2) {
-        margin-top: 200px;
+    &:hover .imgPreview {
+        filter: none;
     }
 `
 
@@ -18,26 +15,53 @@ const PreviewContainer = styled.div`
     position: relative;
 `
 
-const Tag = styled.div`
+const Tags = styled.div`
+    z-index: 5;
     position: absolute;
     top: -10px;
-    left: -10px;
+    right: -10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--primary);
-    padding: 6px 14px;
-    color: white;
-    z-index: 10;
-    border-radius: 2px
+
+    > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--primary);
+        padding: 6px 14px;
+        color: white;
+        z-index: 10;
+        border-radius: 2px;
+        margin: 0 4px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+
+        &:first-of-type {
+            margin-left: 0;
+        }
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+    }
+`
+
+const Date = styled.p`
+    position: absolute;
+    top: -3px;
+    left: 3px;
+    transform: translateY(-100%);
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 400;
 `
 
 const Preview = styled.img`
     width: 100%;
     height: auto;
     position: relative;
-    border: 1px solid var(--primary);
-    border-radius: 8px;
+    border-radius: 6px;
+    filter: blur(0.5px) brightness(0.82) grayscale(1);
+    transition: 0.5s filter ease;
 `
 
 const LinksContainer = styled.div`
@@ -46,7 +70,7 @@ const LinksContainer = styled.div`
     right: 0;
     background-color: var(--primary);
     display: flex;
-    border-radius: 6px 0 8px 0
+    border-radius: 6px 0 6px 0
 `
 
 const Link = styled.a`
@@ -57,16 +81,11 @@ const Link = styled.a`
 `
 
 const TextContainer = styled.div`
-    display: flex;
     padding-top: 18px;
 `
 
-const HeadingContainer = styled.div`
-    flex-grow: 1;
-`
-
 const Name = styled.h3`
-    font-size: 34px;
+    font-size: 2.1rem;
     margin: 0;
 `
 
@@ -75,26 +94,23 @@ const Description = styled.p`
     margin-top: 10px;
 `
 
-const Date = styled.p`
-    font-size: 18px;
-    text-transform: uppercase;
-    writing-mode: vertical-rl;
-    font-weight: 500;
-`
-
 export default function CardWork({work}) {
+
+    const keytechs = work.keytechs.split(',')
     
     return (
         <Card>
-            <Tag>
-                <span>{work.keyword}</span>
-            </Tag>
+            <Tags data-scroll data-scroll-speed="0.4">
+                {keytechs.map( (keytech, i) => (
+                    <div key={i}>{keytech}</div>
+                ))}
+            </Tags>
             <PreviewContainer>
-                <Preview src={ API_URL + work.preview.formats.medium.url} alt=""/>
+                <Preview className="imgPreview" src={ API_URL + work.preview[0].formats.medium.url } alt={work.preview.alternativeText }/>
                 <LinksContainer>
                     <Link href={work.repository} target="_blank">
                         <svg width="26" height="26" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.967 0C8.05848 0.00036459 5.2692 1.15593 3.21256 3.21256C1.15593 5.2692 0.00036459 8.05848 0 10.967C0 15.8097 3.1625 19.9141 7.46763 21.395C8.00663 21.4624 8.20737 21.1255 8.20737 20.856V18.9722C5.181 19.646 4.50863 17.4928 4.50863 17.4928C4.037 16.214 3.29725 15.8771 3.29725 15.8771C2.288 15.2048 3.36325 15.2047 3.36325 15.2047C4.43988 15.2721 5.04625 16.3488 5.04625 16.3488C6.0555 18.0304 7.60237 17.5588 8.20875 17.2906C8.27475 16.5509 8.61162 16.0806 8.88113 15.8111C6.45837 15.5416 3.90225 14.5997 3.90225 10.3606C3.90225 9.15063 4.30513 8.20737 5.04625 7.40025C4.9775 7.19812 4.57463 6.0555 5.181 4.57463C5.181 4.57463 6.12287 4.30512 8.20737 5.71863C9.08187 5.44912 10.0251 5.38175 10.967 5.38175C11.9089 5.38175 12.8508 5.5165 13.7253 5.71863C15.8111 4.3065 16.753 4.57463 16.753 4.57463C17.358 6.0555 16.9538 7.19813 16.8864 7.46763C17.6274 8.27486 18.036 9.33226 18.0304 10.428C18.0304 14.6671 15.4729 15.5416 13.0529 15.8111C13.4558 16.1466 13.7926 16.819 13.7926 17.8282V20.856C13.7926 21.1255 13.9934 21.461 14.5324 21.395C16.7131 20.659 18.6074 19.2563 19.9475 17.385C21.2875 15.5137 22.0055 13.2686 22 10.967C21.9326 4.9115 17.0225 0 10.967 0Z" fill="white"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M10.967 0C8.05848 0.00036459 5.2692 1.15593 3.21256 3.21256C1.15593 5.2692 0.00036459 8.05848 0 10.967C0 15.8097 3.1625 19.9141 7.46763 21.395C8.00663 21.4624 8.20737 21.1255 8.20737 20.856V18.9722C5.181 19.646 4.50863 17.4928 4.50863 17.4928C4.037 16.214 3.29725 15.8771 3.29725 15.8771C2.288 15.2048 3.36325 15.2047 3.36325 15.2047C4.43988 15.2721 5.04625 16.3488 5.04625 16.3488C6.0555 18.0304 7.60237 17.5588 8.20875 17.2906C8.27475 16.5509 8.61162 16.0806 8.88113 15.8111C6.45837 15.5416 3.90225 14.5997 3.90225 10.3606C3.90225 9.15063 4.30513 8.20737 5.04625 7.40025C4.9775 7.19812 4.57463 6.0555 5.181 4.57463C5.181 4.57463 6.12287 4.30512 8.20737 5.71863C9.08187 5.44912 10.0251 5.38175 10.967 5.38175C11.9089 5.38175 12.8508 5.5165 13.7253 5.71863C15.8111 4.3065 16.753 4.57463 16.753 4.57463C17.358 6.0555 16.9538 7.19813 16.8864 7.46763C17.6274 8.27486 18.036 9.33226 18.0304 10.428C18.0304 14.6671 15.4729 15.5416 13.0529 15.8111C13.4558 16.1466 13.7926 16.819 13.7926 17.8282V20.856C13.7926 21.1255 13.9934 21.461 14.5324 21.395C16.7131 20.659 18.6074 19.2563 19.9475 17.385C21.2875 15.5137 22.0055 13.2686 22 10.967C21.9326 4.9115 17.0225 0 10.967 0Z" fill="white"/>
                         </svg>
                     </Link>
                     <Link href={work.demo} target="_blank">
@@ -103,13 +119,11 @@ export default function CardWork({work}) {
                         </svg>
                     </Link>
                 </LinksContainer>
+                <Date>{work.date}</Date>
             </PreviewContainer>
             <TextContainer>
-                <HeadingContainer>
-                    <Name>_{work.name}</Name>
-                    <Description>{work.description}</Description>
-                </HeadingContainer>
-                <Date>{work.date}</Date>
+                <Name data-scroll-offset="50" className="titleWork" data-scroll-class="scroll-titleWork" data-scroll>_{work.name}</Name>
+                <Description data-scroll data-scroll-speed="0.15" data-scroll-class="scroll-descWork" className="descWork">{work.description}</Description>
             </TextContainer>
         </Card>
     )
